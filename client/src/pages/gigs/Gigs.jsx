@@ -43,8 +43,7 @@ function Gigs() {
   return (
     <div className="gigs">
       <div className="container">
-        <span className="breadcrumbs">Workwiswe  Graphics & Design </span>
-        <h1>AI Artists</h1>
+        <span className="breadcrumbs">Workwiswe  Gigs </span>
         <p>
           Explore the boundaries of art and technology with Workwiswe's AI artists
         </p>
@@ -54,16 +53,6 @@ function Gigs() {
             <input ref={minRef} type="number" placeholder="min" />
             <input ref={maxRef} type="number" placeholder="max" />
             <button onClick={apply}>Apply</button>
-          </div>
-          <div className="left">
-            <span>Category</span>
-            <button onClick={apply}>Apply</button>
-            <select>
-              <option>Android</option>
-              <option>Design</option>
-              <option>Web Devlopment</option>
-              <option>Music</option>
-            </select>
           </div>
           <div className="right">
             <span className="sortBy">Sort by</span>

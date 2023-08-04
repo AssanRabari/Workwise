@@ -33,14 +33,15 @@ function Register() {
     e.preventDefault();
 
     const url = await upload(file);
+    
     try {
       await newRequest.post("/auth/register", {
-        ...users,
+        ...user,
         img: url,
       });
       navigate("/")  
     } catch (err) {
-      console.log(err);
+      console.log("---------> Register error",err);
     }
   };
   return (
