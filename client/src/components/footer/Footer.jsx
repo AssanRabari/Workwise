@@ -1,4 +1,4 @@
-import React from "react";
+ import React from "react";
 import "./Footer.scss";
 
 function Footer() {
@@ -8,17 +8,15 @@ function Footer() {
         <div className="top">
           <div className="item">
             <h2>Categories</h2>
-            <span>Graphics & Design</span>
+            <span>Programming & Tech</span>
             <span>Digital Marketing</span>
             <span>Writing & Translation</span>
+            <span>Graphics & Design</span>
             <span>Video & Animation</span>
             <span>Music & Audio</span>
-            <span>Programming & Tech</span>
-            <span>Data</span>
+            <span>Photography</span>
             <span>Business</span>
             <span>Lifestyle</span>
-            <span>Photography</span>
-            <span>Sitemap</span>
           </div>
           <div className="item">
             <h2>About</h2>
@@ -44,8 +42,6 @@ function Footer() {
             <span>Forum</span>
             <span>Events</span>
             <span>Blog</span>
-            <span>Influencers</span>
-            <span>Affiliates</span>
             <span>Podcast</span>
             <span>Invite a Friend</span>
             <span>Become a Seller</span>
@@ -62,7 +58,6 @@ function Footer() {
             <span>ClearVoice</span>
             <span>Workwise Workspace</span>
             <span>Learn</span>
-            <span>Working Not Working</span>
           </div>
         </div>
         <hr />
