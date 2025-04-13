@@ -7,7 +7,7 @@ import newRequest from "../../utils/newRequest";
 
 function MyGigs() {
   const currentUser = getCurrentUser();
-  console.log(currentUser);
+
   const queryClient = useQueryClient();
 
   const { isLoading, error, data } = useQuery({

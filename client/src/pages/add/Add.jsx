@@ -36,7 +36,7 @@ const Add = () => {
       const images = await Promise.all(
         [...files].map(async (file) => {
           const url = await upload(file);
-          return url;
+          return "";
         })
       );
       setUploading(false);
@@ -62,7 +62,7 @@ const Add = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     mutation.mutate(state);
-    //navigate("/mygigs")
+    navigate("/mygigs")
   };
 
   return (

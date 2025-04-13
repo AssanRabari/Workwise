@@ -5,17 +5,18 @@ import { useQuery } from "@tanstack/react-query";
 import newRequest from "../../utils/newRequest";
 
 const GigCard = ({ item }) => {
+
   const { isLoading, error, data } = useQuery({
-    queryKey: [item.userId],
+    queryKey: ["user", item.userId],
     queryFn: () =>
-      newRequest.get(`/users/${item.userId}`).then((res) => {
-        return res.data;
-      }),
+      newRequest.get(`/users/${item.userId}`).then((res) => res.data),
+    enabled: !!item.userId, // only run if userId is available
   });
+  console.log("item._id",item._id)
   return (
     <Link to={`/gig/${item._id}`} className="link">
       <div className="gigCard">
-        <img src={item.cover} alt="" />
+        <img src={item?.cover} alt="" />
         <div className="info">
           {isLoading ? (
             "loading"
@@ -23,16 +24,16 @@ const GigCard = ({ item }) => {
             "Something went wrong!"
           ) : (
             <div className="user">
-              <img src={data.img || "/img/noavatar.jpg"} alt="" />
-              <span>{data.username}</span>
+              <img src={data?.img || "/img/noavatar.jpg"} alt="" />
+              <span>{data?.username}</span>
             </div>
           )}
-          <p>{item.desc}</p>
+          <p>{item?.desc}</p>
           <div className="star">
             <img src="./img/star.png" alt="" />
             <span>
-              {!isNaN(item.totalStars / item.starNumber) &&
-                Math.round(item.totalStars / item.starNumber)}
+              {!isNaN(item?.totalStars / item?.starNumber) &&
+                Math.round(item?.totalStars / item?.starNumber)}
             </span>
           </div>
         </div>
@@ -41,7 +42,7 @@ const GigCard = ({ item }) => {
           <img src="./img/heart.png" alt="" />
           <div className="price">
             <span>STARTING AT</span>
-            <h2>$ {item.price}</h2>
+            <h2>$ {item?.price}</h2>
           </div>
         </div>
       </div>

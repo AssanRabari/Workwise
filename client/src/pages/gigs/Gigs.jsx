@@ -13,28 +13,29 @@ function Gigs() {
 
   const { search } = useLocation();
 
-  const { isLoading, error,   data, refetch } =   ({
-    queryKey: ["gigs"],
-    queryFn: () =>
-      newRequest
-        .get(
-          `/gigs${search}&min=${minRef.current.value}&max=${maxRef.current.value}&sort=${sort}`
-        )
-        .then((res) => {
-          return res.data;
-        }),
-  });
+  const buildQueryURL = () => {
+    const min = minRef.current?.value || "";
+    const max = maxRef.current?.value || "";
+    const params = new URLSearchParams();
 
-  console.log(data);
+    if (min) params.append("min", min);
+    if (max) params.append("max", max);
+    if (sort) params.append("sort", sort);
+
+    const connector = search.includes("?") ? "&" : "?";
+    return `/gigs${search}${params.toString() ? connector + params.toString() : ""}`;
+  };
+
+  const { isLoading, error, data, refetch } = useQuery({
+    queryKey: ["gigs", sort], // add `sort` as dependency
+    queryFn: () =>
+      newRequest.get(buildQueryURL()).then((res) => res.data),
+  });
 
   const reSort = (type) => {
     setSort(type);
     setOpen(false);
   };
-
-  useEffect(() => {
-    refetch();
-  }, [sort]);
 
   const apply = () => {
     refetch();
@@ -43,9 +44,10 @@ function Gigs() {
   return (
     <div className="gigs">
       <div className="container">
-        <span className="breadcrumbs">Workwiswe  Gigs </span>
+        <span className="breadcrumbs">Workwiswe Gigs</span>
         <p>
-          Explore the boundaries of art and technology with Workwiswe's AI artists
+          Explore the boundaries of art and technology with Workwiswe’s AI
+          artists
         </p>
         <div className="menu">
           <div className="left">
@@ -62,22 +64,22 @@ function Gigs() {
             <img src="./img/down.png" alt="" onClick={() => setOpen(!open)} />
             {open && (
               <div className="rightMenu">
-                {sort === "sales" ? (
-                  <span onClick={() => reSort("createdAt")}>Newest</span>
-                ) : (
+                {sort !== "sales" && (
                   <span onClick={() => reSort("sales")}>Best Selling</span>
                 )}
-                <span onClick={() => reSort("sales")}>Popular</span>
+                {sort !== "createdAt" && (
+                  <span onClick={() => reSort("createdAt")}>Newest</span>
+                )}
               </div>
             )}
           </div>
         </div>
         <div className="cards">
           {isLoading
-            ? "loading" 
+            ? "Loading..."
             : error
             ? "Something went wrong!"
-            : data.map((gig) => <GigCard key={gig._id} item={gig} />)}
+            : data?.map((gig) => <GigCard key={gig._id} item={gig} />)}
         </div>
       </div>
     </div>
