@@ -69,11 +69,11 @@ function Gig() {
                 )}
               </div>
             )}
-            {/* <Slider slidesToShow={1} arrowsScroll={1} className="slider">
+            <Slider slidesToShow={1} arrowsScroll={1} className="slider">
               {data?.images?.map((img) => (
                 <img key={img} src={img} alt="" />
               ))}
-            </Slider> */}
+            </Slider>
             <h2>About This Gig</h2>
             <p>{data?.desc}</p>
             {isLoadingUser ? (
