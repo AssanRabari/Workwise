@@ -6,9 +6,7 @@ import newRequest from "../../utils/newRequest";
 import { useParams } from "react-router-dom";
 import CheckoutForm from "../../components/checkoutForm/CheckoutForm";
 
-const stripePromise = loadStripe(
-  "paste your public key"
-);
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 const Pay = () => {
   const [clientSecret, setClientSecret] = useState("");

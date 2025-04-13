@@ -9,11 +9,12 @@ import Reviews from "../../components/reviews/Reviews";
 function Gig() {
   const { id } = useParams();
   const { isLoading , error, data } = useQuery({
-    queryKey: ["gig"],
+    queryKey: ["gig", id],
     queryFn: () =>
       newRequest.get(`/gigs/single/${id}`).then((res) => {
         return res.data;
       }),
+    enabled: !!id,
   });
 
   const userId = data?.userId;
@@ -23,7 +24,7 @@ function Gig() {
     error: errorUser,
     data: dataUser,
   } = useQuery({
-    queryKey: ["user"],
+    queryKey: ["user", userId],
     queryFn: () =>
       newRequest.get(`/users/${userId}`).then((res) => {
         return res.data;
@@ -43,7 +44,7 @@ function Gig() {
             <span className="breadcrumbs">
               Workwise {">"} Graphics & Design {">"}
             </span>
-            <h1>{data.title}</h1>
+            <h1>{data?.title}</h1>
             {isLoadingUser ? (
               "loading"
             ) : errorUser ? (
@@ -52,29 +53,29 @@ function Gig() {
               <div className="user">
                 <img
                   className="pp"
-                  src={dataUser.img || "/img/noavatar.jpg"}
+                  src={dataUser?.img || "/img/noavatar.jpg"}
                   alt=""
                 />
-                <span>{dataUser.username}</span>
-                {!isNaN(data.totalStars / data.starNumber) && (
+                <span>{dataUser?.username}</span>
+                {!isNaN(data?.totalStars / data?.starNumber) && (
                   <div className="stars">
-                    {Array(Math.round(data.totalStars / data.starNumber))
-                      .fill()
-                      .map((item, i) => (
+                    {Array(Math.round(data?.totalStars / data?.starNumber))
+                      ?.fill()
+                      ?.map((item, i) => (
                         <img src="/img/star.png" alt="" key={i} />
                       ))}
-                    <span>{Math.round(data.totalStars / data.starNumber)}</span>
+                    <span>{Math.round(data?.totalStars / data?.starNumber)}</span>
                   </div>
                 )}
               </div>
             )}
-            <Slider slidesToShow={1} arrowsScroll={1} className="slider">
-              {data.images.map((img) => (
+            {/* <Slider slidesToShow={1} arrowsScroll={1} className="slider">
+              {data?.images?.map((img) => (
                 <img key={img} src={img} alt="" />
               ))}
-            </Slider>
+            </Slider> */}
             <h2>About This Gig</h2>
-            <p>{data.desc}</p>
+            <p>{data?.desc}</p>
             {isLoadingUser ? (
               "loading"
             ) : errorUser ? (
@@ -83,18 +84,18 @@ function Gig() {
               <div className="seller">
                 <h2>About The Seller</h2>
                 <div className="user">
-                  <img src={dataUser.img || "/img/noavatar.jpg"} alt="" />
+                  <img src={dataUser?.img || "/img/noavatar.jpg"} alt="" />
                   <div className="info">
-                    <span>{dataUser.username}</span>
-                    {!isNaN(data.totalStars / data.starNumber) && (
+                    <span>{dataUser?.username}</span>
+                    {!isNaN(data?.totalStars / data?.starNumber) && (
                       <div className="stars">
-                        {Array(Math.round(data.totalStars / data.starNumber))
-                          .fill()
-                          .map((item, i) => (
+                        {Array(Math.round(data?.totalStars / data?.starNumber))
+                          ?.fill()
+                          ?.map((item, i) => (
                             <img src="/img/star.png" alt="" key={i} />
                           ))}
                         <span>
-                          {Math.round(data.totalStars / data.starNumber)}
+                          {Math.round(data?.totalStars / data?.starNumber)}
                         </span>
                       </div>
                     )}
@@ -105,7 +106,7 @@ function Gig() {
                   <div className="items">
                     <div className="item">
                       <span className="title">From</span>
-                      <span className="desc">{dataUser.country}</span>
+                      <span className="desc">{dataUser?.country}</span>
                     </div>
                     <div className="item">
                       <span className="title">Member since</span>
@@ -125,7 +126,7 @@ function Gig() {
                     </div>
                   </div>
                   <hr />
-                  <p>{dataUser.desc}</p>
+                  <p>{dataUser?.desc}</p>
                 </div>
               </div>
             )}
@@ -133,22 +134,22 @@ function Gig() {
           </div>
           <div className="right">
             <div className="price">
-              <h3>{data.shortTitle}</h3>
-              <h2>$ {data.price}</h2>
+              <h3>{data?.shortTitle}</h3>
+              <h2>$ {data?.price}</h2>
             </div>
-            <p>{data.shortDesc}</p>
+            <p>{data?.shortDesc}</p>
             <div className="details">
               <div className="item">
                 <img src="/img/clock.png" alt="" />
-                <span>{data.deliveryDate} Days Delivery</span>
+                <span>{data?.deliveryDate} Days Delivery</span>
               </div>
               <div className="item">
                 <img src="/img/recycle.png" alt="" />
-                <span>{data.revisionNumber} Revisions</span>
+                <span>{data?.revisionNumber} Revisions</span>
               </div>
             </div>
             <div className="features">
-              {data.features.map((feature) => (
+              {data?.features?.map((feature) => (
                 <div className="item" key={feature}>
                   <img src="/img/greencheck.png" alt="" />
                   <span>{feature}</span>

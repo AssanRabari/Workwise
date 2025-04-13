@@ -20,7 +20,7 @@ const CheckoutForm = () => {
     }
 
     const clientSecret = new URLSearchParams(window.location.search).get(
-      "payment_intent_client_secret"
+      import.meta.env.VITE_STRIPE_PUBLIC_KEY
     );
 
     if (!clientSecret) {

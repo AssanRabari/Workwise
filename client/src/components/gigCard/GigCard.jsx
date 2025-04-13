@@ -12,7 +12,6 @@ const GigCard = ({ item }) => {
       newRequest.get(`/users/${item.userId}`).then((res) => res.data),
     enabled: !!item.userId, // only run if userId is available
   });
-  console.log("item._id",item._id)
   return (
     <Link to={`/gig/${item._id}`} className="link">
       <div className="gigCard">
