@@ -51,8 +51,8 @@ const Add = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (gig) => {
-      return newRequest.post("/gigs", gig);
+    mutationFn: async (gig) => {
+      return await newRequest.post("/gigs", gig);
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["myGigs"]);

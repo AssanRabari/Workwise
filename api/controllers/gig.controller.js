@@ -15,7 +15,6 @@ export const createGig = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-  console.log("Adding New GIG---------",newGig)
 };
 
 export const deleteGig = async (req, res, next) => {

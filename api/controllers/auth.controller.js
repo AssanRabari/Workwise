@@ -11,7 +11,6 @@ export const register = async (req, res, next) => {
       ...req.body,
       password: hash,
     });
-    console.log("newUser----------------", newUser)
     await newUser.save();
     
     res.status(201).send("User has been created.");
@@ -23,7 +22,6 @@ export const register = async (req, res, next) => {
 export const login = async (req, res, next) => {
   try {
     const user = await User.findOne({ username: req.body.username });
-    // console.log("User----------------", user)
 
     if (!user) return next(createError(404, "User not found!"));
 
@@ -39,8 +37,6 @@ export const login = async (req, res, next) => {
       process.env.JWT_KEY
       //secret
     );
-   
-
     const { password, ...info } = user._doc;
     res
       .cookie("accessToken", token, {
@@ -52,7 +48,7 @@ export const login = async (req, res, next) => {
     next(err);
   }
 };
-console.log("env---------",process.env.JWT_KEY)
+
 export const logout = async (req, res) => {
   res
     .clearCookie("accessToken", {
