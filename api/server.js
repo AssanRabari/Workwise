@@ -16,7 +16,6 @@ import messageRoute from "./routes/message.route.js";
 import reviewRoute from "./routes/review.route.js";
 import authRoute from "./routes/auth.route.js";
 
-
 dotenv.config();
 
 const app = express();

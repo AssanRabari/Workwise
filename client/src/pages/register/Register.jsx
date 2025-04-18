@@ -32,7 +32,7 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // const url = await upload(file);
+    await upload(file);
     
     try {
       await newRequest.post("/auth/register", {
