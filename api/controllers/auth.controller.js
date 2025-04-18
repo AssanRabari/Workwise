@@ -6,28 +6,34 @@ import dotenv from "dotenv";
 
 export const register = async (req, res, next) => {
   try {
-    const hash = bcrypt.hashSync(req.body.password, 5);
+    const { password, ...rest } = req.body;
+    const hashedPassword = bcrypt.hashSync(password, 5);
+
     const newUser = new User({
-      ...req.body,
-      password: hash,
+      ...rest,
+      password: hashedPassword,
     });
+
     await newUser.save();
-    
-    res.status(201).send("User has been created.");
-  } catch (err) {
-    next(err);
+    res.status(201).json({ message: "User has been created." });
+  } catch (error) {
+    next(error);
   }
 };
 
 export const login = async (req, res, next) => {
   try {
-    const user = await User.findOne({ username: req.body.username });
+    const { username, password: inputPassword } = req.body;
 
-    if (!user) return next(createError(404, "User not found!"));
+    const user = await User.findOne({ username });
+    if (!user) {
+      return next(createError(404, "User not found!"));
+    }
 
-    const isCorrect = bcrypt.compareSync(req.body.password, user.password);
-    if (!isCorrect)
+    const isPasswordValid = bcrypt.compareSync(inputPassword, user.password);
+    if (!isPasswordValid) {
       return next(createError(400, "Wrong password or username!"));
+    }
 
     const token = jwt.sign(
       {
@@ -35,26 +41,34 @@ export const login = async (req, res, next) => {
         isSeller: user.isSeller,
       },
       process.env.JWT_KEY
-      //secret
     );
-    const { password, ...info } = user._doc;
+
+    const { password, ...userInfo } = user._doc;
+
     res
       .cookie("accessToken", token, {
         httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: "strict",
       })
       .status(200)
-      .send(info);
-  } catch (err) {
-    next(err);
+      .json(userInfo);
+  } catch (error) {
+    next(error);
   }
 };
 
 export const logout = async (req, res) => {
-  res
-    .clearCookie("accessToken", {
-      sameSite: "none",
-      secure: true,
-    })
-    .status(200)
-    .send("User has been logged out.");
+  try {
+    res
+      .clearCookie("accessToken", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      })
+      .status(200)
+      .json({ message: "User has been logged out." });
+  } catch (error) {
+    res.status(500).json({ message: "Logout failed.", error });
+  }
 };
